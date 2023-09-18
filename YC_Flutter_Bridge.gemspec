@@ -9,9 +9,9 @@ Gem::Specification.new do |spec|
   spec.authors       = ["王维一"]
   spec.email         = ["weiyi.wang@ly.com"]
 
-  spec.summary       = %q{TODO: Write a short summary, because RubyGems requires one.}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.summary       = %q{flutter bridge for ruby}
+  spec.description   = %q{flutter bridge for ruby, assemble flutter code to native shell project}
+  spec.homepage      = "https://github.com/WangWeiYi185/YCFlutterBridge.git"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
