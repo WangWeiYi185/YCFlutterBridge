@@ -53,6 +53,7 @@ module Pod
           if has_name == false
             new_context = ""
             path = @path
+            puts Pathname.new(path)
             raise "工程路径不存在" unless Pathname.new(path).exist?
             status = @isflutter
             pod_str = "pod '#{@name}', :path => '#{path}'"

@@ -1,13 +1,13 @@
-require "cocoapods-local-bridge/command/bridge/add"
-require "cocoapods-local-bridge/command/bridge/list"
-require "cocoapods-local-bridge/command/bridge/remove"
-require "cocoapods-local-bridge/command/bridge/install"
-require "cocoapods-local-bridge/command/bridge/clear"
+require "YC_Flutter_Bridge/command/bridge/add"
+require "YC_Flutter_Bridge/command/bridge/list"
+require "YC_Flutter_Bridge/command/bridge/remove"
+require "YC_Flutter_Bridge/command/bridge/install"
+require "YC_Flutter_Bridge/command/bridge/clear"
 
-require "cocoapods-local-bridge/command/parse/podfile"
-require "cocoapods-local-bridge/command/parse/podlocal"
+require "YC_Flutter_Bridge/command/parse/podfile"
+require "YC_Flutter_Bridge/command/parse/podlocal"
 
-require "cocoapods-local-bridge/command/UI"
+require "YC_Flutter_Bridge/command/UI"
 
 module Pod
   class Command
@@ -51,7 +51,7 @@ module Pod
       end
 
       def hook_all_install
-        # Pod::HooksManager.register("cocoapods-local-bridge", :post_install) do |context, _|
+        # Pod::HooksManager.register("YC_Flutter_Bridge", :post_install) do |context, _|
         #   @podfile.post_install_hook_block.call context if @podfile.post_install_hook_block
         #   context.pods_project.targets.each do |t|
         #     t.build_configurations.each do |config|

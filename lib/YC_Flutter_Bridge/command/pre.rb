@@ -1,6 +1,6 @@
-require "cocoapods-local-bridge/command/parse/podfile"
-require "cocoapods-local-bridge/command/parse/podlocal"
-require "cocoapods-local-bridge/command/flutter/flutter.rb"
+require "YC_Flutter_Bridge/command/parse/podfile"
+require "YC_Flutter_Bridge/command/parse/podlocal"
+require "YC_Flutter_Bridge/command/flutter/flutter.rb"
 require "claide"
 
 module Pod

@@ -1,4 +1,4 @@
-require "cocoapods-local-bridge/command/parse/dsl"
+require "YC_Flutter_Bridge/command/parse/dsl"
 
 # 暂时不需要这里解析了，逐行读取podfile了
 module BridgeHelper

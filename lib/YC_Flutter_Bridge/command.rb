@@ -1,2 +1,2 @@
-require "cocoapods-local-bridge/command/bridge"
-require "cocoapods-local-bridge/command/pre"
+require "YC_Flutter_Bridge/command/bridge"
+require "YC_Flutter_Bridge/command/pre"

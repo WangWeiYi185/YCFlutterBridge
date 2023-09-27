@@ -1,4 +1,4 @@
-require "cocoapods-local-bridge/command/parse/podfile"
+require "YC_Flutter_Bridge/command/parse/podfile"
 
 module BridgeHelper
   class Podlocal
