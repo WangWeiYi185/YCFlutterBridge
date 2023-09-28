@@ -1,4 +1,4 @@
-require "YC_Flutter_Bridge/command/bridge/install"
+require "yc-cocoapods-bridge/command/bridge/install"
 require "claide"
 
 module Pod

@@ -1,4 +1,4 @@
-require "YC_Flutter_Bridge/version"
+require "yc-cocoapods-bridge/version"
 
 module YCFlutterBridge
   class Error < StandardError; end

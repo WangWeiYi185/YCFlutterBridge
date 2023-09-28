@@ -1,5 +1,5 @@
-require "YC_Flutter_Bridge/command/parse/podfile"
-require "YC_Flutter_Bridge/command/parse/podlocal"
+require "yc-cocoapods-bridge/command/parse/podfile"
+require "yc-cocoapods-bridge/command/parse/podlocal"
 
 module Pod
   class Command

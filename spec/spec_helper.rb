@@ -1,5 +1,5 @@
 require "bundler/setup"
-require "YC_Flutter_Bridge"
+require "yc-cocoapods-bridge"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

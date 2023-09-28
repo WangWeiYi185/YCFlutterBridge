@@ -1,4 +1,4 @@
-require "YC_Flutter_Bridge/command/parse/podfile"
+require "yc-cocoapods-bridge/command/parse/podfile"
 
 module BridgeHelper
   class Flutter

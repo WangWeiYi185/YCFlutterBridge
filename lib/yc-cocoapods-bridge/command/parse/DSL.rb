@@ -1,4 +1,4 @@
-require "YC_Flutter_Bridge/command/parse/target_definition"
+require "yc-cocoapods-bridge/command/parse/target_definition"
 
 module BridgeHelper
   class Podfile

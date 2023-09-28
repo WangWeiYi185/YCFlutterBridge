@@ -1,3 +1,3 @@
 require 'rubygems'
 require 'bundler/setup'
-require "YC_Flutter_Bridge/command"
+require "yc-cocoapods-bridge/command"

@@ -1,8 +1,8 @@
 
 require File.expand_path('spec_helper', __FILE__)
 
-#`require 'YC_Flutter_Bridge'` is not required because the spec_helper already
-# Pods::Command::YC_Flutter_Bridge is defined in the cocoapods_plugin.rb
+#`require 'yc-cocoapods-bridge'` is not required because the spec_helper already
+# Pods::Command::yc-cocoapods-bridge is defined in the cocoapods_plugin.rb
 module Pod
   describe Command::Bridge do
     describe 'CLAide' do
