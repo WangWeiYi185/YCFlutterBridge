@@ -53,12 +53,17 @@ module Pod
           if has_name == false
             new_context = ""
             path = @path
+            puts 111
             puts Pathname.new(path)
-            raise "工程路径不存在" unless Pathname.new(path).exist?
+            puts @path
+            puts @name
+            puts @podlocal_path
+            raise "工程路径不存在 #{Pathname.new(path).exist?}" unless Pathname.new(path).exist?
             status = @isflutter
             pod_str = "pod '#{@name}', :path => '#{path}'"
             pod_str << ", :isFlutter => true" if status.is_a?(String) && status.upcase.eql?("YES")
             file = File.new(@podlocal_path.to_path, "r")
+            puts file
             insert = false
             file.each_line do |line|
               if new_context.length > 0 && insert == false

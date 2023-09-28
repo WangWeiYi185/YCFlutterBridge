@@ -6,7 +6,9 @@ module BridgeHelper
     attr_accessor :inherit_str
     attr_accessor :has_modular_headers
     attr_accessor :has_frameworks
+    attr_accessor :inhibit_all_warnings
     attr_accessor :pod_hash
+    
 
     def initialize(name)
       @sons = []
@@ -14,6 +16,7 @@ module BridgeHelper
       @name = name
       @has_modular_headers = false
       @has_frameworks = false
+      @inhibit_all_warnings = false
     end
 
     def birth_son(son)
@@ -36,6 +39,10 @@ module BridgeHelper
 
     def store_inherit!(path)
       @inherit_str = path.to_s
+    end
+
+    def store_inhibit_all_warnings!
+      @inhibit_all_warnings = true
     end
 
     def to_s

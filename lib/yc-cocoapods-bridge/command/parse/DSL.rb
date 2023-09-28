@@ -30,6 +30,11 @@ module BridgeHelper
         @current_target_definition.store_use_frameworks!
       end
 
+      def inhibit_all_warnings!  
+        @current_target_definition.store_inhibit_all_warnings!
+      
+      end
+
       def inherit!(path)
         @current_target_definition.store_inherit!(path)
       end

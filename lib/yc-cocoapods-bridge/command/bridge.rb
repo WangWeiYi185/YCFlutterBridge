@@ -51,20 +51,20 @@ module Pod
       end
 
       def hook_all_install
-        # Pod::HooksManager.register("yc-cocoapods-bridge", :post_install) do |context, _|
-        #   @podfile.post_install_hook_block.call context if @podfile.post_install_hook_block
-        #   context.pods_project.targets.each do |t|
-        #     t.build_configurations.each do |config|
-        #       puts config.build_settings
-        #     end
-        #   end
-        #   if @podlocal.has_flutter
-        #     require File.expand_path(File.join("packages", "flutter_tools", "bin", "podhelper"), @flutter.flutter_fvm_path)
-        #     context.pods_project.targets.each do |t|
-        #       flutter_additional_ios_build_settings(t)
-        #     end
-        #   end
-        # end
+        Pod::HooksManager.register("yc-cocoapods-bridge", :post_install) do |context, _|
+          @podfile.post_install_hook_block.call context if @podfile.post_install_hook_block
+          context.pods_project.targets.each do |t|
+            t.build_configurations.each do |config|
+              puts config.build_settings
+            end
+          end
+          if @podlocal.has_flutter
+            require File.expand_path(File.join("packages", "flutter_tools", "bin", "podhelper"), @flutter.flutter_fvm_path)
+            context.pods_project.targets.each do |t|
+              flutter_additional_ios_build_settings(t)
+            end
+          end
+        end
       end
 
       def read_podfile_lock

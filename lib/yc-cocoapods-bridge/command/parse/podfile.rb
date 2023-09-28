@@ -1,6 +1,6 @@
 require "yc-cocoapods-bridge/command/parse/dsl"
+require 'fileutils'
 
-# 暂时不需要这里解析了，逐行读取podfile了
 module BridgeHelper
   class Podfile
     include BridgeHelper::Podfile::DSL

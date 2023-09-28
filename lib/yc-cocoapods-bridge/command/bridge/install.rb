@@ -77,26 +77,6 @@ module Pod
           @podlocal.pod_merge(@podfile)
         end
 
-        def insert_githook
-          `rm -rf .git/bridge_git_hook`
-          has_depend = read_podfile_lock
-          return unless has_depend
-          `touch .git/bridge_git_hook`
-
-          p = File.open(".git/bridge_git_hook", "w")
-          p.write("pod_has_dependency")
-          p.close
-
-          path = Pathname.new(".git/hooks/pre-commit")
-          return unless path.exist? == false
-          download_hook
-          `unzip -q hooks.zip`
-          `rm -rf __MACOSX`
-          `cp -rf hooks .git`
-          `rm -rf hooks`
-          `rm -rf hooks.zip`
-        end
-
         def download_hook
           open("https://b.yzcdn.cn/pod/hooks.zip") do |fin|
             size = fin.size
@@ -136,7 +116,7 @@ module Pod
           # all raise lead to this command suspend, will execute “ensure”. It`s will copy origin podfile to origin path
         ensure
           reset_podfile
-          insert_githook
+          #insert_githook
         end
       end
     end
