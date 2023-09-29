@@ -72,7 +72,7 @@ module Pod
         `rm -rf #{bridge_temp_dir}`
       end
 
-      def create_six_ear
+      def create_mirror_imp
         p = File.open(@podfile_path, "w")
         context = ""
         context << "ENV['local'] = 'true'\n" if @podlocal.has_flutter
@@ -100,7 +100,7 @@ module Pod
         read_podlocal!
         BridgeHelper::Flutter.remove_flutter_xcconfig(@podlocal, @work_path)
         insert_podlocal
-        create_six_ear
+        create_mirror_imp
         installer = Pod::Command::Install.new(CLAide::ARGV.new([]))
         installer.run()
       ensure

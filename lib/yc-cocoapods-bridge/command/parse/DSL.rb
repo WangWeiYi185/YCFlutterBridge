@@ -14,12 +14,14 @@ module BridgeHelper
       end
 
       def target(name)
+        puts "让我康康 is #{name}"
         parent = @current_target_definition
         news_target = TargetDefinition.new(name)
         parent.birth_son(news_target) if parent
         @current_target_definition = news_target
         yield if block_given?
         @current_target_definition = parent if parent
+        
       end
 
       def use_modular_headers!

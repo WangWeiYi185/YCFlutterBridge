@@ -4,6 +4,7 @@ require "yc-cocoapods-bridge/command/flutter/flutter.rb"
 require "cocoapods"
 require "claide"
 require "cocoapods/open-uri"
+puts $LOAD_PATH
 
 module Pod
   class Command
@@ -59,7 +60,7 @@ module Pod
           `rm -rf #{bridge_temp_dir}`
         end
 
-        def create_six_ear
+        def create_mirror_imp
           p = File.open(@podfile_path, "w")
           context = @podfile.to_s
           p.write(context)
@@ -99,14 +100,19 @@ module Pod
           add_gitignore
           cache_podfile
           # block 存储 文件对应位置， @bridge_temp_path用到block记得传
+          puts "打断你的腿"
           read_podfile!
+          puts "打断你的腿0"
           read_podlocal!
+          puts "打断你的腿1"
           read_flutter!
-
+          puts "打断你的腿2"
           insert_podlocal
+          puts "打断你的腿3"
           insert_flutter
           #core
-          create_six_ear
+          puts "打断你的腿4"
+          create_mirror_imp
           hook_all_install
           # use system `pod install` or include Pod use Pod::Command::Install.new(CLAide::ARGV.new([]))
           # dont use `pod install` this is subcommand, dont describe all pod info
