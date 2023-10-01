@@ -4,7 +4,8 @@ require "yc-cocoapods-bridge/command/flutter/flutter.rb"
 require "cocoapods"
 require "claide"
 require "cocoapods/open-uri"
-puts $LOAD_PATH
+
+#puts $LOAD_PATH 
 
 module Pod
   class Command
@@ -113,6 +114,7 @@ module Pod
           #core
           puts "打断你的腿4"
           create_mirror_imp
+          puts "打断你的腿5"
           hook_all_install
           # use system `pod install` or include Pod use Pod::Command::Install.new(CLAide::ARGV.new([]))
           # dont use `pod install` this is subcommand, dont describe all pod info

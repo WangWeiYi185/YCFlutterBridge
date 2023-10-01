@@ -4,20 +4,23 @@ module BridgeHelper
   class Flutter
     attr_accessor :flutter_path
 
-    attr_accessor :flutter_fvm_path
+    attr_accessor :flutter_sdk_path
 
     attr_accessor :application_path
 
+    attr_accessor :podlocal
+
     include Xcodeproj
 
-    def initialize(flutter_path, application_path)
+    def initialize(flutter_path, application_path, podlocal)
       @flutter_path = flutter_path
       @application_path = application_path
-      input = `ls -al '#{flutter_path}/.fvm/flutter_sdk'`
-      if input.is_a?(String) and input.include?("->")
-        @flutter_fvm_path = input.split("->").last.strip
+      @podlocal = podlocal
+      input = `which flutter`
+      if input.is_a?(String) # 软连接
+        @flutter_sdk_path = input.split("/bin")[0]
       end
-      raise "fvm path dont find" unless @flutter_fvm_path
+      raise "flutter not find" unless @flutter_sdk_path
     end
 
     def insert_flutter_xcconfig(podlocal)
@@ -48,7 +51,7 @@ module BridgeHelper
 
     def insert_extension(podfile)
       raise "podfile is #{podfile.class} no support" unless podfile.is_a?(BridgeHelper::Podfile)
-      flutter_post_install = "require File.expand_path(File.join('packages', 'flutter_tools', 'bin', 'podhelper'), \"#{@flutter_fvm_path}\")\n"
+      flutter_post_install = "require File.expand_path(File.join('packages', 'flutter_tools', 'bin', 'podhelper'), \"#{@flutter_sdk_path}\")\n"
       temp_arr = podfile.post_install_hook_context.split("\n")
       flutter_insert = false
       temp_arr.each do |context|
@@ -106,11 +109,22 @@ module BridgeHelper
     def create_flutter_Dir
       system "mkdir Flutter"
       system "mkdir Config"
-
-      generated_context = "FLUTTER_ROOT=#{flutter_fvm_path}\nFLUTTER_APPLICATION_PATH=#{flutter_path}\nFLUTTER_TARGET=${FLUTTER_APPLICATION_PATH}/lib/main.dart\nPACKAGE_CONFIG=${FLUTTER_APPLICATION_PATH}/.dart_tool/package_config.json\nFLUTTER_BUILD_DIR=build\nSYMROOT=${SOURCE_ROOT}/../build/ios\nFLUTTER_BUILD_NAME=1.0.0\nFLUTTER_BUILD_NUMBER=1\nDART_OBFUSCATION=false\nTRACK_WIDGET_CREATION=true\nTREE_SHAKE_ICONS=false"
+      project_path = ""
+      Dir.foreach(@application_path) do |file|
+        file_obj = Pathname.new(file)
+        raise "current Dir show multiple xcodeproj file" if file_obj.extname.include?("xcodeproj") && project_path.length > 0
+        project_path = file_obj.to_path if file_obj.extname.include?("xcodeproj")
+      end
+      
+      project = Xcodeproj::Project.open(project_path)
+      target = nil
+      project.targets.each do |tg|
+        target = tg if tg.name.eql?(@podlocal.name)
+      end
+      generated_context = "FLUTTER_ROOT=#{flutter_sdk_path}\nFLUTTER_APPLICATION_PATH=#{flutter_path}\nFLUTTER_TARGET=${FLUTTER_APPLICATION_PATH}/lib/main.dart\nPACKAGE_CONFIG=${FLUTTER_APPLICATION_PATH}/.dart_tool/package_config.json\nFLUTTER_BUILD_DIR=build\nSYMROOT=${SOURCE_ROOT}/../build/ios\nFLUTTER_BUILD_NAME=1.0.0\nFLUTTER_BUILD_NUMBER=1\nDART_OBFUSCATION=false\nTRACK_WIDGET_CREATION=true\nTREE_SHAKE_ICONS=false"
       flutter_context = "#include \"../Flutter/Generated.xcconfig\""
-      debug_context = "#include \"Flutter.xcconfig\"\n#include? \"Pods/Target Support Files/Pods-guangshop/Pods-guangshop.debug.xcconfig\""
-      release_context = "#include \"Flutter.xcconfig\"\n#include? \"Pods/Target Support Files/Pods-guangshop/Pods-guangshop.release.xcconfig\""
+      debug_context = "#include \"Flutter.xcconfig\"\n#include? \"Pods/Target Support Files/Pods-#{target}/Pods-#{target}.debug.xcconfig\""
+      release_context = "#include \"Flutter.xcconfig\"\n#include? \"Pods/Target Support Files/Pods-#{target}/Pods-#{target}.release.xcconfig\""
 
       add_file_to_workPath("Debug.xcconfig", debug_context)
       add_file_to_workPath("Release.xcconfig", release_context)

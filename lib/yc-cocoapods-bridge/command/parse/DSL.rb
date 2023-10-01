@@ -3,10 +3,16 @@ require "yc-cocoapods-bridge/command/parse/target_definition"
 module BridgeHelper
   class Podfile
     module DSL
-      def source(name)
+      def source(name, priority = 0)
+        puts "让我康康 is #{name} #{priority}"
         @all_source = [] unless @all_source
         @all_source << name
+        
       end
+      # def source(name)
+      #   @all_source = [] unless @all_source
+      #   @all_source << name
+      # end
 
       def platform(name, dev_version = nil)
         @all_platform = "platform :" + name.to_s
@@ -40,6 +46,12 @@ module BridgeHelper
       def inherit!(path)
         @current_target_definition.store_inherit!(path)
       end
+
+      def install!(name, value)
+        puts "狗东西 #{name} #{value}"
+        puts "install! #{name} #{value}"
+      end
+
 
       def post_install(&block)
         raise "Specifying multiple `post_install` hooks is unsupported." unless !@post_install_hook_block

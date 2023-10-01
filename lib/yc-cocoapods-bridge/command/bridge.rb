@@ -43,7 +43,7 @@ module Pod
 
       def read_flutter!
         return unless @podlocal.has_flutter
-        @flutter = BridgeHelper::Flutter.new(@podlocal.flutter_path, @work_path)
+        @flutter = BridgeHelper::Flutter.new(@podlocal.flutter_path, @work_path, @podlocal)
       end
 
       def read_podlocal!
@@ -59,7 +59,7 @@ module Pod
             end
           end
           if @podlocal.has_flutter
-            require File.expand_path(File.join("packages", "flutter_tools", "bin", "podhelper"), @flutter.flutter_fvm_path)
+            require File.expand_path(File.join("packages", "flutter_tools", "bin", "podhelper"), @flutter.flutter_sdk_path)
             context.pods_project.targets.each do |t|
               flutter_additional_ios_build_settings(t)
             end
