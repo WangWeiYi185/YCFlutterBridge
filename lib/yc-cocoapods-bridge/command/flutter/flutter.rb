@@ -63,13 +63,13 @@ module BridgeHelper
         flutter_insert = true if context.include?("post_install")
       end
       podfile.post_install_hook_context = flutter_post_install
-      podfile.pod("FlutterPluginRegistrant", { :path => File.join("#{flutter_path}/.ios/Flutter", "FlutterPluginRegistrant"), :inhibit_warnings => true })
+      #podfile.pod("FlutterPluginRegistrant", { :path => File.join("#{flutter_path}/.ios/Flutter", "FlutterPluginRegistrant"), :inhibit_warnings => true })
       podfile.extension << "ENV['COCOAPODS_DISABLE_STATS'] = 'true'\nENV['selfbuild'] = 'true'\n"
       podfile.extension << "pod_flutter_application_path = \"#{@flutter_path}\"\n"
       podfile.extension << "def replace_flutter_plugins_dependencies(application_path)\n"
       podfile.extension << "f = \"../.flutter-plugins-dependencies\"\n"
       podfile.extension << "File.delete(f) if File::exists?(f)\n"
-      podfile.extension << "`cp -a \#{application_path}/.flutter-plugins-dependencies ..`\nend\n\n"
+      podfile.extension << "\nend\n\n" # `cp -a \#{application_path}/.flutter-plugins-dependencies ..`
       podfile.extension << "replace_flutter_plugins_dependencies(pod_flutter_application_path)\n"
       podfile.extension << "flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))\n"
     end
@@ -158,7 +158,10 @@ module BridgeHelper
     end
 
     def insert_run_script_to_target(script_name, context, target, project)
+      puts "真想给你一个大逼斗"
+      
       phase = target.build_phases.find { |p| p.is_a?(Xcodeproj::Project::Object::PBXShellScriptBuildPhase) && p.name.eql?(script_name) }
+      puts "#{phase}"
       return if phase
       phase = project.new(Xcodeproj::Project::Object::PBXShellScriptBuildPhase)
       phase.name = script_name
