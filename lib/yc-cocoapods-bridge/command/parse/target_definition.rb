@@ -8,11 +8,13 @@ module BridgeHelper
     attr_accessor :has_frameworks
     attr_accessor :inhibit_all_warnings
     attr_accessor :pod_hash
+    attr_accessor :pod_install
     
 
     def initialize(name)
       @sons = []
       @pod_hash = Hash.new
+      @pod_install = Hash.new
       @name = name
       @has_modular_headers = false
       @has_frameworks = false
@@ -41,16 +43,29 @@ module BridgeHelper
       @inherit_str = path.to_s
     end
 
+    def store_install!(name, value)
+      pod_install[name] = value
+    end 
+
     def store_inhibit_all_warnings!
       @inhibit_all_warnings = true
     end
 
     def to_s
+
       context = ""
+      
+      pod_install.each do |key, value|
+        value.each do |sub_key, sub_value|
+          context << "install! '#{key}', :#{sub_key} => #{sub_value}" + "\n"
+        end
+      end 
+
       context << "\ntarget \"#{@name}\" do\n"
       context << "  use_frameworks!\n" if @has_frameworks
       context << "  use_modular_headers!\n" if @has_modular_headers
       context << "  inherit! :" + @inherit_str + "\n" if @inherit_str
+
       pod_hash.reverse_each do |key, value|
         context << value + "\n"
       end

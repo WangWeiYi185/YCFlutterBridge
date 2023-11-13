@@ -48,8 +48,7 @@ module BridgeHelper
       end
 
       def install!(name, value)
-        puts "狗东西 #{name} #{value}"
-        puts "install! #{name} #{value}"
+        @current_target_definition.store_install!(name, value)
       end
 
 
