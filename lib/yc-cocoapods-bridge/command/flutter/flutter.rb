@@ -47,6 +47,34 @@ module BridgeHelper
       group_main = project.main_group.find_subpath("Config", true)
       path = Pathname.new(@application_path + "Config")
       add_file_reference_to_group(target, project, path.to_path, group_main)
+
+      text_embed_text = '#include? "Flutter/Generated.xcconfig"'
+      Pathname.new(@application_path).each_child(true) do |child1|
+        if child1.directory?
+          child1.each_child(true) do |child2|
+            if child2.directory?
+              child2.each_child(true) do |child3|
+                # 检查是否是.xcconfig文件
+                if child3.file? && child3.extname == '.xcconfig' && child3.basename.to_s.include?('Debug')
+                  # 读取文件内容
+                  contents = File.read(child3)
+      
+                  # 检查文本是否已存在
+                  unless contents.include?(text_embed_text)
+                    # 添加文本到内容的开始
+                    contents = text_embed_text + "\n" + contents
+      
+                    # 写回文件
+                    File.open(child3, 'w') { |file| file.write(contents) }
+                  end
+                end
+              end
+            end
+          end
+        end
+      end
+   
+
     end
 
     def insert_extension(podfile)
